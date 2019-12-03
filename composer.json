@@ -1,0 +1,45 @@
+{
+  "name": "crpt/control-panel",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Александр Громский",
+      "email": "rskrydge@itlab-studio.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "crpt/control-panel",
+        "version": "master",
+        "source": {
+          "url": "https://github.com/321Olexandr123/control-panel_lib.git",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "nowakowskir/php-jwt": "^1.1",
+    "symfony/http-client": "*"
+  },
+  "require-dev": {
+    "ext-json": "*"
+  },
+  "description": "",
+  "autoload": {
+    "psr-4": {
+      "ControlPanel\\": ""
+    }
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": "true"
+    }
+  },
+  "license": "MIT",
+  "minimum-stability": "stable"
+}
