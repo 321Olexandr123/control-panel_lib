@@ -31,15 +31,18 @@ class Authenticator
             ['typ' => 'JWT', 'alg' => 'HS256'],
             [
                 "type" => $type,
-                "publicKey" => $publicKey,
-                "iat" => strtotime("now")
+                "public" => $publicKey
             ]);
         $tokenEndcoded = $tokenDecoded->encode($secretKey);
 
         $client = new NativeHttpClient();
-        $response = $client->request('POST', 'http://control-panel.com/auth', [
-            'body' => [
-                "token" => $tokenEndcoded->__toString()
+
+        $response = $client->request('POST', 'http://control-panel.com/v1/auth', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'token' => $tokenEndcoded->__toString()
             ]
         ]);
 
