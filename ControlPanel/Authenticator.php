@@ -25,7 +25,7 @@ class Authenticator
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function auth(string $type, string $publicKey, string $secretKey)
+    public static function login(string $type, string $publicKey, string $secretKey)
     {
         $tokenDecoded = new TokenDecoded(
             ['typ' => 'JWT', 'alg' => 'HS256'],
