@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ControlPanel;
+namespace ControlPanel\ControlPanel;
 
 
 use Nowakowskir\JWT\TokenDecoded;
