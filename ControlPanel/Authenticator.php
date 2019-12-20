@@ -27,14 +27,6 @@ class Authenticator
      */
     public static function login(string $type, string $publicKey, string $secretKey)
     {
-        $tokenDecoded = new TokenDecoded(
-            ['typ' => 'JWT', 'alg' => 'HS256'],
-            [
-                "type" => $type,
-                "public" => $publicKey
-            ]);
-        $tokenEndcoded = $tokenDecoded->encode($secretKey);
-
         $client = new NativeHttpClient();
 
         $response = $client->request('POST', 'http://control-panel.com/v1/auth', [
@@ -42,7 +34,9 @@ class Authenticator
                 'Content-Type' => 'application/json',
             ],
             'json' => [
-                'token' => $tokenEndcoded->__toString()
+                'username' => $publicKey,
+                'password' => $secretKey,
+                'type' => $type
             ]
         ]);
 
