@@ -29,7 +29,7 @@ class Authenticator
     {
         $client = new NativeHttpClient();
 
-        $response = $client->request('POST', 'http://controlpanel.crpt.trading/v1/auth', [
+        $response = $client->request('POST', 'https://controlpanel.crpt.trading/v1/auth', [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],

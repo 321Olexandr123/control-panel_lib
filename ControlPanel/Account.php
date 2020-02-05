@@ -28,7 +28,7 @@ class Account
     {
         $client = new NativeHttpClient();
 
-        $response = $client->request('POST', 'http://controlpanel.crpt.trading/project-settings', [
+        $response = $client->request('POST', 'https://controlpanel.crpt.trading/project-settings', [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
