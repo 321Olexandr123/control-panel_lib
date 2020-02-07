@@ -28,7 +28,7 @@ class Account
     {
         $client = new NativeHttpClient();
 
-        $response = $client->request('POST', 'https://controlpanel.crpt.trading/project-settings/provider-crypto/huobi', [
+        $response = $client->request('GET', 'https://controlpanel.crpt.trading/project-settings/provider-crypto/huobi', [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
