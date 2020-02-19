@@ -3,8 +3,8 @@
   "type": "library",
   "authors": [
     {
-      "name": "IT Lab Studio",
-      "email": "info@itlab-studio.com"
+      "name": "Александр Громский",
+      "email": "rskrydge@itlab-studio.com"
     }
   ],
   "repositories": [
@@ -14,7 +14,7 @@
         "name": "crpt/control-panel",
         "version": "master",
         "source": {
-          "url": "https://github.com/igor-itlab/control-panel-lib.git",
+          "url": "https://github.com/321Olexandr123/control-panel_lib.git",
           "type": "git",
           "reference": "master"
         }
