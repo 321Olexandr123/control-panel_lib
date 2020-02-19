@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class Account
 {
     /**
-     * @param string $type
+     * @param string $name
      * @param string $publicKey
      * @param string $secretKey
      * @return array
@@ -24,11 +24,11 @@ class Account
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function settings(string $type, string $publicKey, string $secretKey)
+    public static function settings(string $name, string $publicKey, string $secretKey)
     {
         $client = new NativeHttpClient();
 
-        $response = $client->request('GET', 'https://controlpanel.crpt.trading/project-settings/provider-crypto/huobi', [
+        $response = $client->request('GET', 'https://controlpanel.crpt.trading/project-settings/provider-crypto/'.$name, [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
