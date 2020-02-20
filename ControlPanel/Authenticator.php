@@ -16,6 +16,7 @@ class Authenticator
 {
     /**
      * @param string $type
+     * @param array $params
      * @param string $publicKey
      * @param string $secretKey
      * @return array
@@ -25,7 +26,7 @@ class Authenticator
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function login(string $type, string $publicKey, string $secretKey)
+    public static function login(string $type, array $params,string $publicKey, string $secretKey)
     {
         $client = new NativeHttpClient();
 
@@ -36,7 +37,8 @@ class Authenticator
             'json' => [
                 'username' => $publicKey,
                 'password' => $secretKey,
-                'type' => $type
+                'type' => $type,
+                'params' => $params
             ]
         ]);
 
