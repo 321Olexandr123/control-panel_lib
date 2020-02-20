@@ -26,7 +26,7 @@ class Authenticator
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function login(string $type, array $params,string $publicKey, string $secretKey)
+    public static function login(string $type, string $publicKey, string $secretKey, array $params = [])
     {
         $client = new NativeHttpClient();
 
