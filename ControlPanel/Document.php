@@ -11,12 +11,17 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-class Account
+/**
+ * Class Document
+ * @package ControlPanel\ControlPanel
+ */
+class Document
 {
     /**
-     * @param string $name
-     * @param string $publicKey
-     * @param string $secretKey
+     * @param string $authToken
+     * @param string $email
+     * @param string $callUrl
+     * @param string $connection
      * @return array
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -24,20 +29,21 @@ class Account
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function settings(string $name, string $publicKey, string $secretKey)
+    public static function verify(string $authToken, string $email, string $callUrl, string $connection)
     {
         $client = new NativeHttpClient();
 
-        $response = $client->request('GET', 'https://controlpanel.crpt.trading/project-settings/provider-crypto/'.$name, [
+        $response = $client->request('POST', 'https://dev5.itlab-studio.com/api/private/documents', [
             'headers' => [
                 'Content-Type' => 'application/json',
+                'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
             ],
             'json' => [
-                'username' => $publicKey,
-                'password' => $secretKey,
+                "email" => $email,
+                "callUrl" => $callUrl,
+                "connection" => $connection,
             ]
         ]);
-
         return $response->toArray();
     }
 }
