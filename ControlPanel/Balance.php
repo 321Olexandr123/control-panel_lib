@@ -11,64 +11,49 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-/**
- * Class RiskScore
- * @package ControlPanel\ControlPanel
- */
-class RiskScore
+class Balance
 {
     /**
      * @param string $authToken
-     * @param string $asset
-     * @param string $address
-     * @param string $txhash
-     * @param string $connection
-     * @return array
+     * @param string $currency
+     * @return int|mixed
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function check(string $authToken, string $asset, string $address, string $txhash, string $connection)
+    public static function getAll(string $authToken, string $currency)
     {
         $client = new NativeHttpClient();
-
-        $response = $client->request('POST', 'https://dev5.itlab-studio.com/api/private/documents', [
+        $response = $client->request('GET', 'https://dev5.itlab-studio.com/api/private/balances?currency=' . strtolower($currency), [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
             ],
-            'json' => [
-                "asset" => $asset,
-                "address" => $address,
-                "txhash" => $txhash,
-                "connection" => $connection,
-            ]
         ]);
         return $response->toArray();
     }
 
     /**
      * @param string $authToken
-     * @param string $id
-     * @return array
+     * @param string $currency
+     * @return int|mixed
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function checkById(string $authToken, string $id)
+    public static function getByAbbr(string $authToken, string $currency)
     {
         $client = new NativeHttpClient();
-
-        $response = $client->request('GET', 'https://dev5.itlab-studio.com/api/private/risk_scores/' . $id, [
+        $response = $client->request('GET', 'https://dev5.itlab-studio.com/api/private/balances?currency=' . strtolower($currency), [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
             ],
         ]);
-        return $response->toArray();
+        return $response->toArray()[0]['amount'] ?? 0;
     }
 }
