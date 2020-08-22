@@ -58,7 +58,7 @@ class Invoices
 
         $response = $client->request(
             'POST',
-            'https://dev5.itlab-studio.com/api/private/payments',
+            'https://dev9.itlab-studio.com/api/private/payments',
             [
                 'headers' => [
                     'Content-Type'  => 'application/json',
@@ -120,7 +120,7 @@ class Invoices
 
         $response = $client->request(
             'POST',
-            'https://dev5.itlab-studio.com/api/private/payouts',
+            'https://dev9.itlab-studio.com/api/private/payouts',
             [
                 'headers' => [
                     'Content-Type'  => 'application/json',
