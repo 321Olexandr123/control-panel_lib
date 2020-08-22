@@ -17,7 +17,7 @@ class EncryptionManager
      * @param string $key
      * @return string
      */
-    public static function encodeSignature(string $data, string $key)
+    public static function encodeSignature(string $data, string $key): string
     {
         return base64_encode(hash_hmac('sha256', $data, $key, true));
     }
@@ -29,12 +29,15 @@ class EncryptionManager
      * @param string $key
      * @return string
      */
-    public static function encodeJWS(string $projectId, int $iat, int $exp, string $key)
+    public static function encodeJWS(string $projectId, int $iat, int $exp, string $key): string
     {
-        return JWT::encode([
-            'projectId' => $projectId,
-            'iat' => $iat,
-            'exp' => $exp
-        ], $key);
+        return JWT::encode(
+            [
+                'projectId' => $projectId,
+                'iat'       => $iat,
+                'exp'       => $exp
+            ],
+            $key
+        );
     }
 }

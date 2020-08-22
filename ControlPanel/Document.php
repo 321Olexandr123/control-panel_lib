@@ -22,6 +22,7 @@ class Document
      * @param string $email
      * @param string $callUrl
      * @param string $connection
+     * @param array $attributes
      * @return array
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -29,21 +30,32 @@ class Document
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function verify(string $authToken, string $email, string $callUrl, string $connection)
-    {
+    public static function verify(
+        string $authToken,
+        string $email,
+        string $callUrl,
+        string $connection,
+        array $attributes
+    ): array {
         $client = new NativeHttpClient();
 
-        $response = $client->request('POST', 'https://dev5.itlab-studio.com/api/private/documents', [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
-            ],
-            'json' => [
-                "email" => $email,
-                "callUrl" => $callUrl,
-                "connection" => $connection,
+        $response = $client->request(
+            'POST',
+            'https://dev9.itlab-studio.com/api/private/documents',
+            [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
+                ],
+                'json'    => [
+                    "email"      => $email,
+                    "connection" => $connection,
+                    "attributes" => $attributes,
+                    "callUrl"    => $callUrl,
+                ]
             ]
-        ]);
+        );
+
         return $response->toArray();
     }
 }

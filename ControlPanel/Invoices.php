@@ -11,6 +11,10 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
+/**
+ * Class Invoices
+ * @package ControlPanel\ControlPanel
+ */
 class Invoices
 {
     /**
@@ -22,8 +26,8 @@ class Invoices
      * @param string $referenceId
      * @param string $callUrl
      * @param string $returnUrl
+     * @param array $attributes
      * @param string $key
-     * @param string $type
      * @return array
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -40,31 +44,40 @@ class Invoices
         string $referenceId,
         string $callUrl,
         string $returnUrl,
-        string $key,
-        string $type
-    )
-    {
-        $signature = EncryptionManager::encodeSignature($paymentSystem . ':' . $amount . ':' . $currency . ':' . $referenceId . ':' . $connection . ':' . $type, $key);
+        array $attributes,
+        string $key
+    ): array {
+        $signature = EncryptionManager::encodeSignature(
+            $paymentSystem . ':' . $amount . ':' . $currency . ':' . $referenceId . ':' . $connection . ':' . base64_encode(
+                json_encode($attributes)
+            ),
+            $key
+        );
 
         $client = new NativeHttpClient();
 
-        $response = $client->request('POST', 'https://dev5.itlab-studio.com/api/private/payments', [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
-            ],
-            'json' => [
-                "paymentSystem" => $paymentSystem,
-                "amount" => $amount,
-                "currency" => $currency,
-                "referenceId" => $referenceId,
-                "callUrl" => $callUrl,
-                "returnUrl" => $returnUrl,
-                "connection" => $connection,
-                "signature" => $signature,
-                "type" => $type
+        $response = $client->request(
+            'POST',
+            'https://dev5.itlab-studio.com/api/private/payments',
+            [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
+                ],
+                'json'    => [
+                    "paymentSystem" => $paymentSystem,
+                    "amount"        => $amount,
+                    "currency"      => $currency,
+                    "referenceId"   => $referenceId,
+                    "connection"    => $connection,
+                    "returnUrl"     => $returnUrl,
+                    "attributes"    => $attributes,
+                    "callUrl"       => $callUrl,
+                    "signature"     => $signature,
+                ]
             ]
-        ]);
+        );
+
         return $response->toArray();
     }
 
@@ -73,12 +86,11 @@ class Invoices
      * @param string $connection
      * @param string $paymentSystem
      * @param string $amount
-     * @param array $properties
      * @param string $currency
      * @param string $referenceId
      * @param string $callUrl
+     * @param array $attributes
      * @param string $key
-     * @param string $type
      * @return array
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -91,35 +103,42 @@ class Invoices
         string $connection,
         string $paymentSystem,
         string $amount,
-        array $properties,
         string $currency,
         string $referenceId,
         string $callUrl,
-        string $key,
-        string $type
-    )
-    {
-        $signature = EncryptionManager::encodeSignature($paymentSystem . ':' . $amount . ':' . $currency . ':' . $referenceId . ':' . $connection . ':' . $type . ':' . base64_encode(json_encode($properties)), $key);
+        array $attributes,
+        string $key
+    ): array {
+        $signature = EncryptionManager::encodeSignature(
+            $paymentSystem . ':' . $amount . ':' . $currency . ':' . $referenceId . ':' . $connection . ':' . base64_encode(
+                json_encode($attributes)
+            ),
+            $key
+        );
 
         $client = new NativeHttpClient();
 
-        $response = $client->request('POST', 'https://dev5.itlab-studio.com/api/private/payouts', [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
-            ],
-            'json' => [
-                "paymentSystem" => $paymentSystem,
-                "amount" => $amount,
-                "currency" => $currency,
-                "properties" => $properties,
-                "referenceId" => $referenceId,
-                "callUrl" => $callUrl,
-                "connection" => $connection,
-                "signature" => $signature,
-                "type" => $type
+        $response = $client->request(
+            'POST',
+            'https://dev5.itlab-studio.com/api/private/payouts',
+            [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
+                ],
+                'json'    => [
+                    "paymentSystem" => $paymentSystem,
+                    "amount"        => $amount,
+                    "currency"      => $currency,
+                    "referenceId"   => $referenceId,
+                    "connection"    => $connection,
+                    "attributes"    => $attributes,
+                    "callUrl"       => $callUrl,
+                    "signature"     => $signature,
+                ]
             ]
-        ]);
+        );
+
         return $response->toArray();
     }
 }
