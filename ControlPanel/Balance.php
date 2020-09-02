@@ -48,7 +48,7 @@ class Balance
     public static function getByAbbr(string $authToken, string $currency)
     {
         $client = new NativeHttpClient();
-        $response = $client->request('GET', 'https://dev9.itlab-studio.com/api/private/balances?currency=' . strtolower($currency), [
+        $response = $client->request('GET', 'https://dev9.itlab-studio.com/api/private/balances?currency.asset=' . strtolower($currency), [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
