@@ -12,14 +12,13 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
- * Class Balance
+ * Class Fee
  * @package ControlPanel\ControlPanel
  */
-class Balance
+class Fee
 {
     /**
      * @param string $authToken
-     * @param string $currency
      * @return int|mixed
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -27,21 +26,26 @@ class Balance
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function getAll(string $authToken, string $currency)
+    public static function getAll(string $authToken)
     {
         $client = new NativeHttpClient();
-        $response = $client->request('GET', 'https://dev9.itlab-studio.com/api/private/balances?currency=' . strtolower($currency), [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
-            ],
-        ]);
+        $response = $client->request(
+            'GET',
+            'https://dev9.itlab-studio.com/api/private/fees',
+            [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
+                ],
+            ]
+        );
+
         return $response->toArray();
     }
 
     /**
      * @param string $authToken
-     * @param string $currency
+     * @param string $feeId
      * @return int|mixed
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -49,15 +53,20 @@ class Balance
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function getByAbbr(string $authToken, string $currency)
+    public static function getById(string $authToken, string $feeId)
     {
         $client = new NativeHttpClient();
-        $response = $client->request('GET', 'https://dev9.itlab-studio.com/api/private/balances?currency.asset=' . strtolower($currency), [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
-            ],
-        ]);
-        return $response->toArray()[0]['amount'] ?? 0;
+        $response = $client->request(
+            'GET',
+            'https://dev9.itlab-studio.com/api/private/fees/' . $feeId,
+            [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'JWS-AUTH-TOKEN ' . $authToken
+                ],
+            ]
+        );
+
+        return $response->toArray();
     }
 }
