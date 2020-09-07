@@ -43,7 +43,7 @@ class RiskScore
 
         $response = $client->request(
             'POST',
-            'https://dev9.itlab-studio.com/api/private/documents',
+            'https://dev9.itlab-studio.com/api/private/risk_scores',
             [
                 'headers' => [
                     'Content-Type'  => 'application/json',
